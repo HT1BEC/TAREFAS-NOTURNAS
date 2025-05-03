@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tarefas a Fazer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 1em;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background-color: #fff;
+      padding: 1em;
+      margin: 0.5em 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+    li input[type="checkbox"] {
+      margin-right: 1em;
+      transform: scale(1.5);
+    }
+    button {
+      width: 100%;
+      padding: 1em;
+      font-size: 1.2em;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 1em;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1ebc59;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📋 Lista de Tarefas</h1>
+  <ul id="taskList">
+    <li><input type="checkbox">🪟 CERTIFICAR SE TODAS AS PORTAS DO SALÃO DE FESTAS ESTÃO DEVIDAMENTE FECHADAS</li>
+    <li><input type="checkbox">🚱 CONFERIR SE Á VAZAMENTO NOS BANHEIROS E ENCANAÇÕES DO HOTEL</li>
+    <li><input type="checkbox">💡 LIGAR LUZES DA ÁREA EXTERNA DO SALÃO DE FESTAS 17:30</li>
+    <li><input type="checkbox">💡 LIGAR LUZES DO HT ÁS 17:30</li>
+    <li><input type="checkbox">🪴 REGAR TODAS AS PLANTAS DO HT (TODAS, SEM EXCEÇÃO)</li>
+    <li><input type="checkbox">⚡ DESLIGAR MOTOR DA PISCINA ÁS 18H</li>
+    <li><input type="checkbox">🔑 CONFERIR SE TODAS AS CHAVES ESTÃO NO CLAVICULÁRIO</li>
+    <li><input type="checkbox">🚪 CONFERIR SE OS DEPÓSITOS ESTÃO FECHADOS</li>
+    <li><input type="checkbox">💨 DELIGAR GÁS DE COZINHA, VERIFICAR SE Á ALGUM TIPO DE VAZAMENTO</li>
+  </ul>
+
+  <button onclick="enviarParaWhatsapp()">📲 Enviar para WhatsApp</button>
+
+  <script>
+    function enviarParaWhatsapp() {
+      const tarefas = [];
+      const lista = document.querySelectorAll("#taskList li");
+      let todasConcluidas = true;
+
+      lista.forEach(item => {
+        const checkbox = item.querySelector('input[type="checkbox"]');
+        const texto = item.textContent.trim();
+        tarefas.push(texto);
+        if (!checkbox.checked) {
+          todasConcluidas = false;
+        }
+      });
+
+      let textoFinal = "📋 *Lista de Tarefas:*\n\n" + tarefas.join("\n");
+      if (todasConcluidas) {
+        textoFinal += "\n\n✅ Todas as tarefas foram concluídas com sucesso!";
+      }
+
+      const texto = encodeURIComponent(textoFinal);
+      const url = `https://wa.me/?text=${texto}`;
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>
